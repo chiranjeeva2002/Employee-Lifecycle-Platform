@@ -3,8 +3,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 DATABASE_URL = (
-    "mssql+pyodbc://DESKTOP-845GU33\\SQLEXPRESS/TestDB"
-    "?driver=ODBC+Driver+17+for+SQL+Server"
+    "mssql+pyodbc://DESKTOP-845GU33\\SQLEXPRESS/EmployeeDB?"
+    "driver=ODBC+Driver+17+for+SQL+Server"
     "&trusted_connection=yes"
 )
 
