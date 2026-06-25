@@ -15,3 +15,5 @@ class User(Base):
     email=Column(String(100),unique=True,nullable=False)
     password=Column(String(256),nullable=False)
     is_active=Column(Boolean,default=True)
+    role=Column(String(20),nullable=False,default="employee")
+    

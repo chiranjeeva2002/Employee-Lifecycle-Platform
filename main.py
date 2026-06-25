@@ -3,10 +3,29 @@ from fastapi import FastAPI, Depends, HTTPException,status
 import models, crud, schemas
 from database import engine, get_db
 from fastapi.security import OAuth2PasswordRequestForm
-from auth import (verify_password,create_access_token,get_current_user)
+from auth import (verify_password,create_access_token,get_current_user,require_admin)
+from rag.ingest import ingest_documents
+from rag.qa_chain import ask_hr_question
 
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
+
+#---- HR Q&A Route ----hr 
+
+@app.post("/hr/ingest",response_model=schemas.IngestResponse)
+def ingest_hr_docs(current_user=Depends(require_admin)):
+    try:
+        chunk_count=ingest_documents()
+        return {"message": "HR documents ingested successfully", "chunks_created": chunk_count}
+    except Exception as e:
+        raise HTTPException(status_code=500,detail=str(e))
+@app.post("/hr/ask",response_model=schemas.HRAnswer)
+def ask_question(body: schemas.HRQuestion, current_user=Depends(get_current_user)):
+    try:
+        result=ask_hr_question(body.question)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 # .....Auth Routes....
 @app.post("/register",response_model=schemas.UserResponse)
@@ -68,18 +87,21 @@ def read_item(employee_id: int, db: Session = Depends(get_db),current_user=Depen
     return item
 
 @app.post("/employees/", response_model=schemas.ItemResponse, status_code=201)
-def create_item(item: schemas.ItemCreate, db: Session = Depends(get_db),current_user=Depends(get_current_user)):
+def create_item(item: schemas.ItemCreate, db: Session = Depends(get_db),
+                current_user=Depends(require_admin)):
     return crud.create(db, item)
 
 @app.put("/employees/{employee_id}", response_model=schemas.ItemResponse)
-def update_item(employee_id: int, item: schemas.ItemUpdate, db: Session = Depends(get_db),current_user=Depends(get_current_user)):
+def update_item(employee_id: int, item: schemas.ItemUpdate, db: Session = Depends(get_db),
+                current_user=Depends(require_admin)):
     updated_item = crud.update(db, employee_id, item)
     if not updated_item:
         raise HTTPException(status_code=404, detail="Item not found")
     return updated_item
 
 @app.delete("/employees/{employee_id}", response_model=schemas.ItemResponse)
-def delete_item(employee_id: int, db: Session = Depends(get_db),current_user=Depends(get_current_user)):
+def delete_item(employee_id: int, db: Session = Depends(get_db),
+                current_user=Depends(require_admin)):
     deleted = crud.delete(db, employee_id)
     if not deleted:
         raise HTTPException(status_code=404, detail="Item not found")
