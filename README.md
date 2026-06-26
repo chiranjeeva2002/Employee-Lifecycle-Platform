@@ -107,10 +107,10 @@ bash# Clone the repository
 git clone https://github.com/chiranjeeva2002/Employee-Lifecycle-Platform.git
 cd Employee-Lifecycle-Platform
 
-** Create and activate a virtual environment**
+**Create and activate a virtual environment**
 python -m venv venv
-venv\Scripts\activate        # Windows
-**source venv/bin/activate**    # macOS/Linux
+venv\Scripts\activate        --Windows
+**source venv/bin/activate**   --macOS/Linux
 
 **Install dependencies**
 pip install -r requirements.txt
