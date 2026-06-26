@@ -20,11 +20,11 @@ Table of Contents:
 
 
 
-1. **Overview**
+#1. **Overview**
 This project simulates a real-world Employee Management System (in the spirit of platforms like Workday) as a learning project covering production-relevant backend concepts: REST API design, relational data modeling, authentication/authorization, and applied LLM integration via RAG.
 It was built incrementally, with each feature added as a deliberate learning step — see Roadmap for what's implemented versus designed-but-not-built.
 
-2. **Features**
+#2. **Features**
 Employee CRUD — create, read, update, and delete employee records
 JWT Authentication — secure register/login flow using signed, time-limited tokens
 Password Security — bcrypt hashing (never stores plaintext passwords)
@@ -33,7 +33,7 @@ HR Policy Q&A (RAG) — employees can ask natural-language questions about compa
 Auto-generated API docs — full interactive Swagger UI at **/docs**
 
 
-3. **Architecture**
+#3. **Architecture**
 
                     Client (Swagger UI / future frontend)
                                   |
@@ -62,7 +62,7 @@ Auto-generated API docs — full interactive Swagger UI at **/docs**
   3. **crud.get_all()** queries the database via SQLAlchemy
   4. The response is validated and serialized through a Pydantic **response_model**
 
-4. **Tech Stack**
+#4. **Tech Stack**
 
 **Layer  TechnologyAPI** 
 Framework          FastAPI
@@ -76,7 +76,7 @@ Embeddings         sentence-transformers (**all-MiniLM-L6-v2**)
 LLM Runtime        Ollama running **phi3**
 Server             Uvicorn
 
-5. **Project Structure**
+#5. **Project Structure**
 
 Employee-Lifecycle-Platform/
 ├── main.py                # FastAPI app instance & route definitions
@@ -93,7 +93,7 @@ Employee-Lifecycle-Platform/
 ├── requirements.txt
 └── README.md
 
-6. **Getting Started**
+#6. **Getting Started**
 
 **Prerequisites**
   1. Python 3.11+
@@ -139,7 +139,7 @@ pip install -r requirements.txt
   **Then trigger ingestion (admin only):**
   POST /hr/ingest
 
-7. **API Reference**
+#7. **API Reference**
 
 **Method**  **Endpoint**    **Access**  **Description**
 POST         /register        Public         Register a new user (admin or employee)
@@ -155,7 +155,7 @@ POST         /hr/ask          Authenticated  Ask a natural-language HR policy qu
 
 Full interactive documentation with request/response schemas is available at /docs once the server is running.
 
-8. **Authentication & Roles**
+#8. **Authentication & Roles**
 Authentication uses **JWT (JSON Web Tokens)**:
    1. **POST /register** creates a user with a bcrypt-hashed password and an assigned role (**admin** or **employee**)
    2. **POST /login** verifies credentials and returns a signed, time-limited access token
@@ -163,19 +163,19 @@ Authentication uses **JWT (JSON Web Tokens)**:
    4. Admin-only routes layer an additional role check (**require_admin**) on top of authentication
 
 
-**Role   Can view employees   Can create/update/delete employees   Can re-index HR docs**
-employee Yes                  No                                   No
-admin    Yes                  Yes                                  Yes
+   **Role   Can view employees   Can create/update/delete employees   Can re-index HR docs**
+     employee Yes                  No                                   No
+     admin    Yes                  Yes                                  Yes
 
-9. **HR Policy Q&A (RAG)**
-Rather than relying on the LLM's general training knowledge (which has no awareness of this company's actual policies), the system uses **Retrieval-Augmented Generation:**
+#9. **HR Policy Q&A (RAG)**
+  Rather than relying on the LLM's general training knowledge (which has no awareness of this company's actual policies), the system uses **Retrieval-Augmented Generation:**
   1. Ingestion — HR policy documents are loaded, split into overlapping text chunks, embedded into vectors, and stored in ChromaDB
   2. Retrieval — an incoming question is embedded the same way, and the most semantically similar chunks are retrieved
   3. Generation — those chunks plus the original question are passed to a locally-running phi3 model (via Ollama), with a prompt instructing it to answer only from the provided context
 
 This grounds answers in the company's actual documents and reduces (though doesn't eliminate) hallucination, while keeping all data and inference local — no third-party API calls, no data leaving the machine.
 
-10.  **Roadmap**
+#10.  **Roadmap**
 **Implemented:**
  Employee CRUD
  JWT authentication
@@ -190,7 +190,7 @@ This grounds answers in the company's actual documents and reduces (though doesn
  Refresh tokens
  Containerization (Docker) & CI/CD pipeline
 
-11. **Known Limitations**
+#11. **Known Limitations**
 This is a learning project and intentionally documents its current gaps rather than hiding them:
   SECRET_KEY is currently hardcoded rather than loaded from an environment variable
   No automated test suite yet
@@ -200,6 +200,6 @@ This is a learning project and intentionally documents its current gaps rather t
   No pagination — GET /employees returns all rows
 
 
-12. **License**
+#12. **License**
 
 This project is licensed under the MIT License — see the LICENSE file for details.
