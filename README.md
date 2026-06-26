@@ -1,4 +1,6 @@
+'''
 # Employee-Lifecycle-Platform
+
 A scalable Human Resource Management and People Operations platform built with FastAPI, featuring employee management, onboarding, authentication, and workflow automation.
 Employee Lifecycle Platform
 
@@ -203,3 +205,4 @@ This is a learning project and intentionally documents its current gaps rather t
 #12. **License**
 
 This project is licensed under the MIT License — see the LICENSE file for details.
+'''
