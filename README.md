@@ -135,8 +135,8 @@ pip install -r requirements.txt
 **Set Up the RAG Feature (Optional)**
   bash# Install and pull a lightweight local model
   ollama pull phi3
-  # Add HR policy documents (PDF or DOCX) to the hr_policies/ folder
-  # Then trigger ingestion (admin only):
+  **Add HR policy documents (PDF or DOCX) to the hr_policies/ folder**
+  **Then trigger ingestion (admin only):**
   POST /hr/ingest
 
 7. **API Reference**
