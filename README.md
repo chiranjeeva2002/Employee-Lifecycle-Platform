@@ -1,7 +1,5 @@
 # Employee-Lifecycle-Platform
 
-A scalable Human Resource Management and People Operations platform built with FastAPI, featuring employee management, onboarding, authentication, and workflow automation.
-
 A backend Employee Management System built with FastAPI and SQL Server, featuring JWT authentication, role-based access control, and a Retrieval-Augmented Generation (RAG) assistant for HR policy Q&A powered by a locally-run LLM.
 
 ## Table of Contents
